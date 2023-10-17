@@ -1,9 +1,12 @@
 package com.example.demo;
 
-import org.springframework.data.rest.core.annotation.*;
+import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+
 
 @Component
 @RepositoryEventHandler
@@ -21,8 +24,13 @@ public class PersonHandler {
     }
 
     @HandleBeforeCreate
-    public void name(Person entity) {
-        entity.setName("***");
+    public void CreateTitle(Person entity) {
+        entity.setTitle("["+entity.getName()+"]"+entity.getTitle());
+    }
+
+    @HandleBeforeSave
+    public void SaveTitle(Person entity) {
+        entity.setTitle("["+entity.getName()+"]"+entity.getTitle());
     }
 
 }
