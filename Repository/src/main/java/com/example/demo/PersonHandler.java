@@ -12,23 +12,23 @@ import java.time.LocalDateTime;
 @RepositoryEventHandler
 public class PersonHandler {
 
-    // 저장 하기 전 DB에 넣을 때,
-    @HandleBeforeCreate
+
+    @HandleBeforeCreate // 생성일 넣기
     public void handleBeforeCreate(Person entity) {
         entity.setCreated(LocalDateTime.now());
     }
 
-    @HandleBeforeSave // PUT, PATCH
+    @HandleBeforeSave // 수정일 넣기
     public void handleBeforeSave(Person entity) {
         entity.setUpdated(LocalDateTime.now());
     }
 
-    @HandleBeforeCreate
+    @HandleBeforeCreate // 생성 후 제목 앞 작성자 붙이기
     public void CreateTitle(Person entity) {
         entity.setTitle("["+entity.getName()+"]"+entity.getTitle());
     }
 
-    @HandleBeforeSave
+    @HandleBeforeSave // 수정 후 제목 앞 작성자 붙이기
     public void SaveTitle(Person entity) {
         entity.setTitle("["+entity.getName()+"]"+entity.getTitle());
     }
