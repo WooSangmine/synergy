@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class Person {
+public class MemberBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;   //아이디

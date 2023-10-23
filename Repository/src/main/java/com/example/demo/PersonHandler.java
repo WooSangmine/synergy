@@ -14,22 +14,22 @@ public class PersonHandler {
 
 
     @HandleBeforeCreate // 생성일 넣기
-    public void handleBeforeCreate(Person entity) {
+    public void handleBeforeCreate(MemberBoard entity) {
         entity.setCreated(LocalDateTime.now());
     }
 
     @HandleBeforeSave // 수정일 넣기
-    public void handleBeforeSave(Person entity) {
+    public void handleBeforeSave(MemberBoard entity) {
         entity.setUpdated(LocalDateTime.now());
     }
 
     @HandleBeforeCreate // 생성 후 제목 앞 작성자 붙이기
-    public void CreateTitle(Person entity) {
+    public void CreateTitle(MemberBoard entity) {
         entity.setTitle("["+entity.getName()+"]"+entity.getTitle());
     }
 
     @HandleBeforeSave // 수정 후 제목 앞 작성자 붙이기
-    public void SaveTitle(Person entity) {
+    public void SaveTitle(MemberBoard entity) {
         entity.setTitle("["+entity.getName()+"]"+entity.getTitle());
     }
 
