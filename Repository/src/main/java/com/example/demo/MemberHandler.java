@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Component
 @RepositoryEventHandler
-public class PersonHandler {
+public class MemberHandler {
 
 
     @HandleBeforeCreate // 생성일 넣기
