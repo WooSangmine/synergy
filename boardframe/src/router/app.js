@@ -21,6 +21,11 @@ const routes = [
                     path: '/app/home',
                     name: '/app/home',
                     component: () => import('@/app/Home/Home.vue')
+                },
+                {
+                    path: '/app/table',
+                    name: '/app/table',
+                    component: () => import('@/app/table/table.vue')
                 },]
         }
         ,]

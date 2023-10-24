@@ -24,7 +24,7 @@
             size="64"
         ></v-avatar>
 
-        <div>john@vuetifyjs.com</div>
+        <div @click="$router.push('/table')">john@vuetifyjs.com</div>
       </v-sheet>
 
       <v-divider></v-divider>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import Home from  './Home/Home.vue';
+import Home from './Home/Home.vue';
 export default {
   data:()=>({
     links: [
