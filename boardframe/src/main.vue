@@ -3,10 +3,7 @@
 </template>
 
 <script>
-export default {
-  name : 'MainBoard',
-
-}
+export default {}
 </script>
 
 <style></style>
