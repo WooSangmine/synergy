@@ -1,4 +1,4 @@
-
+<modal/>
 <template>
   <div>
     <v-data-table
@@ -44,20 +44,22 @@
 </template>
 <script>
 import Resource from '@/api/server.js'
+import {fastKey} from "core-js/internals/internal-metadata";
+import modal from "@/app/modal/modal.vue";
 export default {
+  components: {modal},
   data: () => ({
     headers: [
       { text: '아이디', value: 'id', align: 'center', width: '10%' },
       { text: '이름', value: 'name', align: 'center' },
       { text: '제목', value: 'title', align: 'center' },
       { text: '설명', value: 'subtitle', align: 'center' },
-      { text: '내용', value: 'content', align: 'center' },
       { text: '수정 / 삭제', value: 'actions', align: 'center', sortable: false },
     ],
     items: [],
     totalItems: 0,
     totalPages: 0,
-    isLoading: true,
+    isLoading: false,
 
     isOpen: false,
     activeId: null,

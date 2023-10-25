@@ -21,6 +21,11 @@ export default [
                         name: '/app/table',
                         component: () => import('@/app/table/Table.vue')
                     },
+                    {
+                        path: '/app/modal',
+                        name: '/app/modal',
+                        component: () => import('@/app/modal/modal.vue')
+                    },
                 ],
             },
         ]

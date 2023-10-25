@@ -5,7 +5,6 @@
         app
     >
       <v-divider></v-divider>
-      <v-btn text to='/app/table'>Table</v-btn>
       <v-list>
         <v-list-item
             v-for="[icon, text] in links"
@@ -45,5 +44,9 @@ export default {
     ],
     drawer: null,
   }),
+  components: {
+  },
 }
 </script>
+<style>
+</style>
