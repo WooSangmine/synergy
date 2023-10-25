@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <v-data-table
@@ -49,6 +50,8 @@ export default {
       { text: '아이디', value: 'id', align: 'center', width: '10%' },
       { text: '이름', value: 'name', align: 'center' },
       { text: '제목', value: 'title', align: 'center' },
+      { text: '설명', value: 'subtitle', align: 'center' },
+      { text: '내용', value: 'content', align: 'center' },
       { text: '수정 / 삭제', value: 'actions', align: 'center', sortable: false },
     ],
     items: [],
@@ -110,7 +113,7 @@ export default {
             },
           })
           .then((res) => {
-            this.items = res.data._embedded.persons
+            this.items = res.data._embedded.memberBoards
             this.totalItems = res.data.page.totalElements
             this.totalPages = res.data.page.totalPages
           })
@@ -140,7 +143,10 @@ export default {
             const item = res.data
             this.activeId = item.id
             this.inputValues.title = item.title
-            this.inputValues.age = item.age
+            this.inputValues.name = item.name
+            this.inputValues.subtitle = item.subtitle
+            this.inputValues.content = item.content
+
             this.toggleIsOpen()
           })
           .catch((err) => {

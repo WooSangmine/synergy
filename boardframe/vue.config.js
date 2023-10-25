@@ -6,7 +6,7 @@ module.exports = defineConfig({
   lintOnSave: false,
   devServer: {
     proxy: {
-      '/api': {
+      '/': {
         target: 'http://localhost:3010',
         changeOrigin: true // cross origin 허용
       }
