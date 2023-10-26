@@ -19,6 +19,18 @@
             <v-list-item-title>{{ text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item link @click="onclick">
+
+          <v-list-item-icon>
+            <v-icon>  mdi-pencil</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>글 쓰기</v-list-item-title>
+          </v-list-item-content>
+
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
   <v-main>
@@ -28,13 +40,18 @@
     >
       <router-view />
     </v-container>
+    <Cmodal ref="Modal_save" />
   </v-main>
   </v-app>
 </template>
 
 <script>
+import Cmodal from "@/app/home/modal/CreateModal.vue"
 export default {
   name: 'App',
+  components: {
+    Cmodal
+  },
   data:()=>({
     links: [
       ['mdi-inbox-arrow-down', 'Inbox'],
@@ -44,7 +61,10 @@ export default {
     ],
     drawer: null,
   }),
-  components: {
+  methods: {
+    onclick() {
+      this.$refs.modal_save.toggleIsOpen();
+    }
   },
 }
 </script>

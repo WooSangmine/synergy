@@ -45,7 +45,7 @@
 <script>
 import Resource from '@/api/server.js'
 import {fastKey} from "core-js/internals/internal-metadata";
-import modal from "@/app/modal/modal.vue";
+import modal from "@/app/home/modal/CreateModal.vue";
 export default {
   components: {modal},
   data: () => ({
