@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-data-table
@@ -19,9 +18,11 @@
     >
       <template v-slot:top>
         <div class='text-h6 font-weight-bold pl-8 pt-6'>
-
+          목록 ({{ totalItems }})
           <v-btn icon @click='toggleIsOpen'>
-            <modal ></modal>
+            <v-icon>
+              mdi-plus-circle
+            </v-icon>
           </v-btn>
         </div>
       </template>
@@ -38,43 +39,128 @@
         </v-btn>
       </template>
     </v-data-table>
+
+    <v-dialog :value='isOpen' @click:outside='toggleIsOpen' max-width='768px'>
+      <v-card class='pa-4'>
+        <v-card-title class='text-h6 font-weight-bold pb-8'>
+          {{ !activeId ? '등록' : '수정' }}하기
+        </v-card-title>
+        <v-card-text class='pb-2'>
+          <v-form ref='form' lazy-validation>
+            <v-text-field
+                v-model='inputValues.name'
+                label='이름'
+                hint="이름은 수정이 불가능합니다*"
+                placeholder='이름을 입력하세요.'
+                :rules='requiredRules'
+                required
+                clearable
+                outlined
+            />
+            <v-text-field
+                v-model='inputValues.title'
+                label='제목'
+                placeholder='제목을 입력하세요.'
+                :rules='requiredRules'
+                required
+                clearable
+                outlined
+            />
+            <v-text-field
+                v-model='inputValues.subtitle'
+                label='설명'
+                placeholder='설명을 입력하세요.'
+                :rules='requiredRules'
+                required
+                clearable
+                outlined
+            />
+            <v-textarea
+                v-model='inputValues.content'
+                label='내용'
+                placeholder='내용을 입력하세요.'
+                :rules='requiredRules'
+                clearable
+                outlined
+            />
+          </v-form>
+          <div class='d-flex mt-0' style='justify-content: end; gap: 12px;'>
+            <v-btn @click='toggleIsOpen' outlined>
+              <v-icon left>
+                mdi-close-circle-outline
+              </v-icon>
+              닫기
+            </v-btn>
+            <v-btn @click='handleSaveClick' outlined>
+              <v-icon left>
+                mdi-content-save-outline
+              </v-icon>
+              저장
+            </v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
+
 <script>
 import Resource from '@/api/server.js'
-import modal  from "@/app/modal/modal.vue";
 
 export default {
-  components: {
-    modal
-  },
   data: () => ({
     headers: [
-      { text: '아이디', value: 'id', align: 'center', width: '10%'},
+      { text: '아이디', value: 'id', align: 'center', width: '10%',},
+      { text: '이름', value: 'name', align: 'center' },
       { text: '제목', value: 'title', align: 'center' },
       { text: '설명', value: 'subtitle', align: 'center' },
-      { text: '작성자', value: 'name', align: 'center' },
-      { text: '생성일', value: 'CreateDate', align: 'center' },
+      { text: '생성일', value: 'created' , align: 'center' },
       { text: '수정 / 삭제', value: 'actions', align: 'center', sortable: false },
     ],
-    items: [
-    ],
+    items: [],
     totalItems: 0,
     totalPages: 0,
-    isLoading: false,
+    isLoading: true,
 
     isOpen: false,
     activeId: null,
-    inputValues: { title: '', name: '' },
+    inputValues: {
+      title: '',
+      name: '',
+      subtitle: '',
+      content: '',
+    },
     requiredRules: [
-      v => !!v || '필수 입력사항입니다.', ],
+      v => !!v || '필수 입력사항입니다.',
+    ],
+
     options: {},
   }),
+  watch: {
+    isOpen(curr) {
+      this.$refs.form?.resetValidation()
+      if (!curr) {
+        this.activeId = null
+        this.inputValues = {
+          title: '',
+          name: '',
+          subtitle: '',
+          content: '',
+        }
+      }
+    },
+    options: {
+      handler() {
+        this.searchApi(this.options)
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   methods: {
     toggleIsOpen() {
       this.isOpen = !this.isOpen
     },
-
     // Event Handlers
     handleEditClick(item) {
       this.readApi(item.id)
@@ -95,7 +181,8 @@ export default {
         if (!isConfirm) return
 
         this.updateApi(this.activeId)
-      } },
+      }
+    },
     handleRemoveClick(item) {
       const isConfirm = confirm('[ ' + item.title + ' ] (을)를 정말로 삭제하시겠습니까?')
       if (!isConfirm) return
@@ -148,9 +235,8 @@ export default {
             this.activeId = item.id
             this.inputValues.title = item.title
             this.inputValues.name = item.name
+            this.inputValues.title = item.title
             this.inputValues.subtitle = item.subtitle
-            this.inputValues.content = item.content
-
             this.toggleIsOpen()
           })
           .catch((err) => {
@@ -162,6 +248,7 @@ export default {
       Resource.memberBoards
           .update({ id, data: this.inputValues })
           .then(() => {
+            this.searchApi()
             alert('수정이 완료되었습니다!')
           })
           .catch((err) => {
@@ -175,6 +262,7 @@ export default {
       Resource.memberBoards
           .delete({ id })
           .then(() => {
+            this.searchApi()
             alert('삭제가 완료되었습니다!')
           })
           .catch((err) => {
@@ -187,3 +275,5 @@ export default {
   },
 }
 </script>
+
+<style></style>
