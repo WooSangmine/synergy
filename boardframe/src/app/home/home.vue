@@ -20,14 +20,13 @@
       <template v-slot:top>
         <div class='text-h6 font-weight-bold pl-8 pt-6'>
           목록 ({{ totalItems }})
-          <v-btn icon @click='onclick'>
+          <v-btn icon @click='toggleIsOpen'>
             <v-icon>
               mdi-plus-circle
             </v-icon>
           </v-btn>
         </div>
       </template>
-      <CreateModal ref="modal_save"/>
       <template v-slot:item.value="{item}">
         <v-btn @click="handleEditClick(item)" icon>
         </v-btn>
@@ -45,17 +44,75 @@
         </v-btn>
       </template>
     </v-data-table>
+    <v-dialog :value='isOpen' @click:outside='toggleIsOpen' max-width='768px'>
+      <v-card class='pa-4'>
+        <v-card-title class='text-h6 font-weight-bold pb-8'>
+          등록 하기
+        </v-card-title>
+        <v-card-text class='pb-2' @keyup.enter="handleSaveClick" >
+          <v-form ref='form' lazy-validation>
+            <v-text-field
+                v-model='inputValues.name'
+                label='이름'
+                hint="이름은 수정이 불가능합니다*"
+                placeholder='이름을 입력하세요.'
+                :rules='requiredRules'
+                required
+                clearable
+                outlined
+            />
+            <v-text-field
+                v-model='inputValues.title'
+                label='제목'
+                placeholder='제목을 입력하세요.'
+                :rules='requiredRules'
+                required
+                clearable
+                outlined
+            />
+            <v-text-field
+                v-model='inputValues.subtitle'
+                label='설명'
+                placeholder='설명을 입력하세요.'
+                :rules='requiredRules'
+                required
+                clearable
+                outlined
+            />
+            <v-textarea
+                v-model='inputValues.content'
+                label='내용'
+                placeholder='내용을 입력하세요.'
+                :rules='requiredRules'
+                clearable
+                outlined
+            />
+          </v-form>
+          <div class='d-flex mt-0' style='justify-content: end; gap: 12px;'>
+            <v-btn @click='toggleIsOpen' outlined>
+              <v-icon left>
+                mdi-close-circle-outline
+              </v-icon>
+              닫기
+            </v-btn>
+            <v-btn @click='handleSaveClick' outlined>
+              <v-icon left >
+                mdi-content-save-outline
+              </v-icon >
+              저장
+            </v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import Resource from '@/api/server.js'
-import CreateModal from '@/app/home/modal/CreateModal.vue'
+
 
 export default {
-  components: {
-    CreateModal
-  },
   data: () => ({
     headers: [
       { text: '아이디', value: 'id', align: 'center',},
@@ -81,11 +138,21 @@ export default {
     requiredRules: [
       v => !!v || '필수 입력사항입니다.',
     ],
-
     options: {},
   }),
   watch: {
-
+    isOpen(curr) {
+      this.$refs.form?.resetValidation()
+      if (!curr) {
+        this.activeId = null
+        this.inputValues = {
+          title: '',
+          name: '',
+          subtitle: '',
+          content: '',
+        }
+      }
+    },
     options: {
       handler() {
         this.searchApi(this.options)
@@ -95,9 +162,10 @@ export default {
     },
   },
   methods: {
-    onclick() {
-      this.$refs.modal_save.toggleIsOpen();
+    toggleIsOpen() {
+      this.isOpen = !this.isOpen
     },
+
     // Event Handlers
     handleEditClick(item) {
       this.readApi(item.id)
