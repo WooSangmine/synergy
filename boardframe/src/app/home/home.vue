@@ -110,6 +110,7 @@
 
 <script>
 import Resource from '@/api/server.js'
+import moment from "moment";
 
 
 export default {
@@ -126,6 +127,7 @@ export default {
     totalItems: 0,
     totalPages: 0,
     isLoading: true,
+
 
     isOpen: false,
     activeId: null,
@@ -166,12 +168,14 @@ export default {
       this.isOpen = !this.isOpen
     },
 
+
     // Event Handlers
     handleEditClick(item) {
       this.readApi(item.id)
     },
     handleSaveClick() {
       const isValidate = this.$refs.form.validate()
+
       if (!isValidate) return
 
       if (!this.activeId) {
@@ -189,6 +193,7 @@ export default {
       }
     },
     handleRemoveClick(item) {
+
       const isConfirm = confirm('[ ' + item.title + ' ] (을)를 정말로 삭제하시겠습니까?')
       if (!isConfirm) return
 
@@ -277,7 +282,6 @@ export default {
             alert('에러가 발생하였습니다!')
           })
 
-      this.toggleIsOpen()
     },
   },
 }

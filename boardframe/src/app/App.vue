@@ -19,18 +19,7 @@
             <v-list-item-title>{{ text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-          <Home ref="modal_save"/>
-        <v-list-item link ">
 
-          <v-list-item-icon>
-            <v-icon>  mdi-pencil</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>글 쓰기</v-list-item-title>
-          </v-list-item-content>
-
-        </v-list-item>
       </v-list>
     </v-navigation-drawer>
   <v-main>

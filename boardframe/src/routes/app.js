@@ -15,7 +15,14 @@ export default [
                         path: '/app/home',
                         name: '/app/home',
                         component: () => import('@/app/home/home.vue'),
+                        children: [
+                            {
+                                path: '/app/modal',
+                                name: '/app/modal',
+                                component: () => import('@/app/home/modal/modal.vue'),
 
+                            },
+                        ]
                     },
                 ],
             },
