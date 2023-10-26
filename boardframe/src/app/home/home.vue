@@ -20,13 +20,14 @@
       <template v-slot:top>
         <div class='text-h6 font-weight-bold pl-8 pt-6'>
           목록 ({{ totalItems }})
-          <v-btn icon @click='toggleIsOpen'>
+          <v-btn icon @click='onclick'>
             <v-icon>
               mdi-plus-circle
             </v-icon>
           </v-btn>
         </div>
       </template>
+      <CreateModal ref="modal_save"/>
       <template v-slot:item.value="{item}">
         <v-btn @click="handleEditClick(item)" icon>
         </v-btn>
@@ -44,18 +45,16 @@
         </v-btn>
       </template>
     </v-data-table>
-
-   <Cmodal/>
   </div>
 </template>
 
 <script>
 import Resource from '@/api/server.js'
-import Cmodal from '@/app/home/modal/CreateModal.vue'
+import CreateModal from '@/app/home/modal/CreateModal.vue'
 
 export default {
   components: {
-    Cmodal
+    CreateModal
   },
   data: () => ({
     headers: [
@@ -96,8 +95,8 @@ export default {
     },
   },
   methods: {
-    toggleIsOpen() {
-      this.isOpen = !this.isOpen
+    onclick() {
+      this.$refs.modal_save.toggleIsOpen();
     },
     // Event Handlers
     handleEditClick(item) {

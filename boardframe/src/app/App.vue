@@ -19,8 +19,8 @@
             <v-list-item-title>{{ text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
-        <v-list-item link @click="onclick">
+          <Home ref="modal_save"/>
+        <v-list-item link ">
 
           <v-list-item-icon>
             <v-icon>  mdi-pencil</v-icon>
@@ -40,18 +40,15 @@
     >
       <router-view />
     </v-container>
-    <Cmodal ref="Modal_save" />
   </v-main>
   </v-app>
 </template>
 
 <script>
-import Cmodal from "@/app/home/modal/CreateModal.vue"
+
 export default {
   name: 'App',
-  components: {
-    Cmodal
-  },
+
   data:()=>({
     links: [
       ['mdi-inbox-arrow-down', 'Inbox'],
@@ -61,11 +58,7 @@ export default {
     ],
     drawer: null,
   }),
-  methods: {
-    onclick() {
-      this.$refs.modal_save.toggleIsOpen();
-    }
-  },
+
 }
 </script>
 <style>
