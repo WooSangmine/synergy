@@ -16,7 +16,6 @@
                 itemsPerPageOptions: [5, 10, 20],
             }'
 
-
     >
       <template v-slot:top>
         <div class='text-h6 font-weight-bold pl-8 pt-6'>
@@ -125,14 +124,10 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-
   </div>
 </template>
-
 <script>
 import Resource from '@/api/server.js'
-
-
 export default {
   data: () => ({
     headers: [
@@ -272,7 +267,7 @@ export default {
             const item = res.data
             this.activeId = item.id
             this.inputValues.name = item.name
-            this.inputValues.title = item.title
+            this.inputValues.title = this.getTitle(item.title)
             this.inputValues.subtitle = item.subtitle
             this.inputValues.content = item.content
             this.inputValues.created = item.created
@@ -312,11 +307,12 @@ export default {
             console.error(err)
             alert('에러가 발생하였습니다!')
           })
-
     },
+    getTitle(title){
+      return title.replace(/\[.*?\]/g,'')
+}
   },
 }
 </script>
-
 <style>
 </style>
