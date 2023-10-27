@@ -29,7 +29,7 @@ export default {
             return Vue.axios({
                 headers,
                 url: `${baseUrl}/memberBoards/${data.id}`,
-                method: 'PATCH',
+                method: 'PUT',
                 data: data.data,
             })
         },

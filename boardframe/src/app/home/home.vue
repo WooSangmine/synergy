@@ -20,15 +20,18 @@
       <template v-slot:top>
         <div class='text-h6 font-weight-bold pl-8 pt-6'>
           목록 ({{ totalItems }})
-          <v-btn icon @click='toggleIsOpen'>
+          <v-btn icon @click='toggleIsOpen' style="margin-left: 30px">
             <v-icon>
               mdi-plus-circle
             </v-icon>
+            <v-list-item-title>
+              글 작성
+            </v-list-item-title>
           </v-btn>
         </div>
       </template>
       <template v-slot:item.value="{item}">
-        <v-btn @click="handleEditClick(item)" icon>
+        <v-btn @click="readtoggleIsOpen" icon>
         </v-btn>
       </template>
       <template v-slot:item.actions='{ item }'>
@@ -44,6 +47,7 @@
         </v-btn>
       </template>
     </v-data-table>
+      <!-- 생성 및 수정 모달   -->
     <v-dialog :value='isOpen' @click:outside='toggleIsOpen' max-width='768px'>
       <v-card class='pa-4'>
         <v-card-title class='text-h6 font-weight-bold pb-8'>
@@ -56,7 +60,7 @@
                 label='이름'
                 hint="이름은 수정이 불가능합니다*"
                 placeholder='이름을 입력하세요.'
-                :rules='requiredRules'
+                :rules='requiredRules.concat(nameRules)'
                 required
                 clearable
                 outlined
@@ -105,12 +109,44 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <v-dialog :value='readisOpen' @click:outside='readtoggleIsOpen' max-width='768px'>
+      <v-card class='pa-4'>
+        <v-card-title class='text-h6 font-weight-bold pb-8'>
+          등록 하기
+        </v-card-title>
+        <v-card-text class='pb-2' @keyup.enter="handleSaveClick" >
+          <v-form ref='form' lazy-validation>
+            <v-text-field
+                v-model='items.name'
+            />
+            <v-text-field
+                v-model='items.title'
+            />
+            <v-text-field
+                v-model='items.subtitle'
+            />
+            <v-textarea
+                v-model='items.content'
+            />
+          </v-form>
+          <div class='d-flex mt-0' style='justify-content: end; gap: 12px;'>
+            <v-btn @click='toggleIsOpen' outlined>
+              <v-icon left>
+                mdi-close-circle-outline
+              </v-icon>
+              닫기
+            </v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import Resource from '@/api/server.js'
-import moment from "moment";
+import moment from 'moment'
 
 
 export default {
@@ -127,6 +163,7 @@ export default {
     totalItems: 0,
     totalPages: 0,
     isLoading: true,
+    readisOpen: false,
 
 
     isOpen: false,
@@ -139,6 +176,9 @@ export default {
     },
     requiredRules: [
       v => !!v || '필수 입력사항입니다.',
+    ],
+    nameRules : [
+        v =>  /^\D+$/.test(v) || '글자만 입력할 수 있습니다.'
     ],
     options: {},
   }),
@@ -167,7 +207,9 @@ export default {
     toggleIsOpen() {
       this.isOpen = !this.isOpen
     },
-
+    readtoggleIsOpen() {
+      this.readisOpen =  this.readisOpen
+    },
 
     // Event Handlers
     handleEditClick(item) {
@@ -214,6 +256,7 @@ export default {
             },
           })
           .then((res) => {
+            this.items.created = moment(this.items.created).format('YYYY-MM-DD')
             this.items = res.data._embedded.memberBoards
             this.totalItems = res.data.page.totalElements
             this.totalPages = res.data.page.totalPages
@@ -223,6 +266,7 @@ export default {
           })
       this.isLoading = false
     },
+    // 생성
     createApi() {
       Resource.memberBoards
           .create({data: this.inputValues })
@@ -237,13 +281,13 @@ export default {
 
       this.toggleIsOpen()
     },
+    // 단일 조희
     readApi(id) {
       Resource.memberBoards
           .read({ id })
           .then((res) => {
             const item = res.data
             this.activeId = item.id
-            this.inputValues.title = item.title
             this.inputValues.name = item.name
             this.inputValues.title = item.title
             this.inputValues.subtitle = item.subtitle
@@ -256,6 +300,7 @@ export default {
             alert('에러가 발생하였습니다!')
           })
     },
+    // 추가
     updateApi(id) {
       Resource.memberBoards
           .update({ id, data: this.inputValues })
@@ -270,6 +315,7 @@ export default {
 
       this.toggleIsOpen()
     },
+    // 삭제
     deleteApi(id) {
       Resource.memberBoards
           .delete({ id })
