@@ -16,6 +16,7 @@
                 itemsPerPageOptions: [5, 10, 20],
             }'
 
+
     >
       <template v-slot:top>
         <div class='text-h6 font-weight-bold pl-8 pt-6'>
@@ -30,10 +31,10 @@
           </v-btn>
         </div>
       </template>
-      <template v-slot:item.value="{item}">
-        <v-btn @click="readtoggleIsOpen" icon>
-        </v-btn>
+      <template v-slot:item.created="value">
+        {{$moment(value).format('YYYY/MM/DD')}}
       </template>
+      <template v-slot:item.updated="update"></template>
       <template v-slot:item.actions='{ item }'>
         <v-btn @click='handleEditClick(item)' icon class='mr-1'>
           <v-icon color='blue'>
@@ -51,7 +52,7 @@
     <v-dialog :value='isOpen' @click:outside='toggleIsOpen' max-width='768px'>
       <v-card class='pa-4'>
         <v-card-title class='text-h6 font-weight-bold pb-8'>
-          등록 하기
+          {{ !activeId ? '등록' : '수정' }}하기
         </v-card-title>
         <v-card-text class='pb-2' @keyup.enter="handleSaveClick" >
           <v-form ref='form' lazy-validation>
@@ -91,6 +92,21 @@
                 clearable
                 outlined
             />
+            <v-text-field
+                v-model="$moment(inputValues.created).format('YYYY/MM/DD')"
+                label='생성일'
+                readonly
+                outlined
+            />
+            <v-text-field
+                value="null"
+                v-model="$moment(inputValues.updated).format('YYYY/MM/DD')"
+                label='수정일'
+                readonly
+                solo
+                outlined
+            />
+
           </v-form>
           <div class='d-flex mt-0' style='justify-content: end; gap: 12px;'>
             <v-btn @click='toggleIsOpen' outlined>
@@ -110,43 +126,11 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog :value='readisOpen' @click:outside='readtoggleIsOpen' max-width='768px'>
-      <v-card class='pa-4'>
-        <v-card-title class='text-h6 font-weight-bold pb-8'>
-          등록 하기
-        </v-card-title>
-        <v-card-text class='pb-2' @keyup.enter="handleSaveClick" >
-          <v-form ref='form' lazy-validation>
-            <v-text-field
-                v-model='items.name'
-            />
-            <v-text-field
-                v-model='items.title'
-            />
-            <v-text-field
-                v-model='items.subtitle'
-            />
-            <v-textarea
-                v-model='items.content'
-            />
-          </v-form>
-          <div class='d-flex mt-0' style='justify-content: end; gap: 12px;'>
-            <v-btn @click='toggleIsOpen' outlined>
-              <v-icon left>
-                mdi-close-circle-outline
-              </v-icon>
-              닫기
-            </v-btn>
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
 <script>
 import Resource from '@/api/server.js'
-import moment from 'moment'
 
 
 export default {
@@ -163,7 +147,6 @@ export default {
     totalItems: 0,
     totalPages: 0,
     isLoading: true,
-    readisOpen: false,
 
 
     isOpen: false,
@@ -173,7 +156,9 @@ export default {
       name: '',
       subtitle: '',
       content: '',
-    },
+      created: '',
+      updated:'',
+      },
     requiredRules: [
       v => !!v || '필수 입력사항입니다.',
     ],
@@ -192,6 +177,8 @@ export default {
           name: '',
           subtitle: '',
           content: '',
+          created: '',
+          updated:'',
         }
       }
     },
@@ -206,9 +193,6 @@ export default {
   methods: {
     toggleIsOpen() {
       this.isOpen = !this.isOpen
-    },
-    readtoggleIsOpen() {
-      this.readisOpen =  this.readisOpen
     },
 
     // Event Handlers
@@ -256,7 +240,6 @@ export default {
             },
           })
           .then((res) => {
-            this.items.created = moment(this.items.created).format('YYYY-MM-DD')
             this.items = res.data._embedded.memberBoards
             this.totalItems = res.data.page.totalElements
             this.totalPages = res.data.page.totalPages
@@ -292,6 +275,8 @@ export default {
             this.inputValues.title = item.title
             this.inputValues.subtitle = item.subtitle
             this.inputValues.content = item.content
+            this.inputValues.created = item.created
+            this.inputValues.updated = item.updated
 
             this.toggleIsOpen()
           })

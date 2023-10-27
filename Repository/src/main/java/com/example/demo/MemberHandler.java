@@ -28,7 +28,7 @@ public class MemberHandler {
         entity.setTitle("["+entity.getName()+"]"+entity.getTitle());
     }
 
-    @HandleBeforeSave // 수정 후 제목 앞 작성자 붙이기
+    @HandleBeforeSave // 수정 후 제목 앞 작성자 붙이기'
     public void SaveTitle(MemberBoard entity) {
         entity.setTitle("["+entity.getName()+"]"+entity.getTitle());
     }
