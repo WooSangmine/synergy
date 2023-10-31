@@ -1,4 +1,4 @@
-package io.sngy.samples.oauth2.jwt.resourceserver;
+package io.syng.sample.oauth2.jwt.resourceserver;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +21,17 @@ public class ApplicationSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf()
+            .csrf()
                 .disable()
-                .cors(cors-> cors
-                        .configurationSource(corsConfigurationSource)
-                )
-                .authorizeRequests(authorize -> authorize
-                        .antMatchers("/", "/index.html", "/css/*").permitAll()
-                        .anyRequest().authenticated()
-                ).oauth2ResourceServer(
-                        OAuth2ResourceServerConfigurer::jwt
-                );
+            .cors(cors-> cors
+                .configurationSource(corsConfigurationSource)
+            )
+            .authorizeRequests(authorize -> authorize
+                .antMatchers("/", "/index.html", "/css/*").permitAll()
+                .anyRequest().authenticated()
+            ).oauth2ResourceServer(
+                OAuth2ResourceServerConfigurer::jwt
+           );
         ;
         return http.build();
     }

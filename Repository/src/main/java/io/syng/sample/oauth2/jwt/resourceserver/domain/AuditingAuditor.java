@@ -1,4 +1,4 @@
-package io.sngy.samples.oauth2.jwt.resourceserver.domain;
+package io.syng.sample.oauth2.jwt.resourceserver.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;

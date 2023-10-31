@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 const baseUrl = process.env.VUE_APP_SERVER_URL
 const headers = {
-    // Authorization: 'Bearer ...' // token
+        Authorization: 'test1234', // header의 속성
 }
 
 export default {
