@@ -128,8 +128,11 @@
 </template>
 <script>
 import Resource from '@/api/server.js'
+import Authorization from '@/app/com.u2ware.oauth2.jwt.authorizationserver.js'
+import Resources from '@/app/com.u2ware.oauth2.jwt.resourceserver.js'
 export default {
   data: () => ({
+    powers: [],
     headers: [
       { text: '아이디', value: 'id', align: 'center',},
       { text: '이름', value: 'name', align: 'center',},
@@ -162,6 +165,20 @@ export default {
     ],
     options: {},
   }),
+  mounted() {
+    console.log('powers 데이터 get 요청')
+    Resources.powers
+        .read(Authorization.headers())
+        .then((res) => {
+          console.log('powers: ', res.data._embedded.powers)
+          this.powers = res.data._embedded.powers
+        })
+        .catch((err) => {
+          console.log('powers catch')
+          console.error(err)
+          Authorization.catch(err)
+        })
+  },
   watch: {
     isOpen(curr) {
       this.$refs.form?.resetValidation()
