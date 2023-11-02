@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import header from "@/app/com.u2ware.oauth2.jwt.authorizationserver";
 
-const baseUrl = process.env.VUE_APP_RESOURCES
-const headers =
-    {
-    }
+const baseUrl = process.env.VUE_APP_SERVER_URL
+const headers = header.headers()
+
 
 export default {
     memberBoards: {
