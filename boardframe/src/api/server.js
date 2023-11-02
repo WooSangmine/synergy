@@ -1,9 +1,11 @@
 import Vue from 'vue'
+import header from "@/app/com.u2ware.oauth2.jwt.authorizationserver";
 
-const baseUrl = process.env.VUE_APP_SERVER_URL
-const headers = {
-        Authorization: 'test1234', // header의 속성
-}
+const baseUrl = process.env.VUE_APP_RESOURCES
+const headers =
+    {
+
+    }
 
 export default {
     memberBoards: {
@@ -19,7 +21,6 @@ export default {
         // 단일 조회
         read(data) {
             return Vue.axios({
-                headers,
                 url: `${baseUrl}/memberBoards/${data.id}`,
                 method: 'GET',
             })
@@ -44,7 +45,6 @@ export default {
         // 전체 조회
         search(data) {
             return Vue.axios({
-                headers,
                 url: `${baseUrl}/memberBoards`,
                 method: 'GET',
                 params: data.params
