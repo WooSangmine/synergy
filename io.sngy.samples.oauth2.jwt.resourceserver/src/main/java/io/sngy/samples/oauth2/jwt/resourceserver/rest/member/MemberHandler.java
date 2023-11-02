@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @RepositoryEventHandler
 public class MemberHandler {
 
-
     @HandleBeforeCreate // 생성일 넣기
     public void handleBeforeCreate(MemberBoard entity) {
         entity.setCreated(LocalDateTime.now());

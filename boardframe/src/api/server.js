@@ -4,7 +4,6 @@ import header from "@/app/com.u2ware.oauth2.jwt.authorizationserver";
 const baseUrl = process.env.VUE_APP_RESOURCES
 const headers =
     {
-
     }
 
 export default {
@@ -21,6 +20,7 @@ export default {
         // 단일 조회
         read(data) {
             return Vue.axios({
+                headers,
                 url: `${baseUrl}/memberBoards/${data.id}`,
                 method: 'GET',
             })

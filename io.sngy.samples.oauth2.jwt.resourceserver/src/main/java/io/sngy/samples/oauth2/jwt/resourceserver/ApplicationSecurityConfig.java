@@ -27,7 +27,7 @@ public class ApplicationSecurityConfig {
                 .configurationSource(corsConfigurationSource)
             )
             .authorizeRequests(authorize -> authorize
-                .antMatchers("/", "/index.html", "/css/*").permitAll()
+                .antMatchers("/", "/index.html", "/css/*","contnets/home","/memberBoards").permitAll()
                 .anyRequest().authenticated()
             ).oauth2ResourceServer(
                 OAuth2ResourceServerConfigurer::jwt
