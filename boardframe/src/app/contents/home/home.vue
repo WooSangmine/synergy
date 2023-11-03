@@ -15,7 +15,6 @@
                 itemsPerPageText: `페이지당 행 개수`,
                 itemsPerPageOptions: [5, 10, 20],
             }'
-
     >
       <template v-slot:top>
         <div class='text-h6 font-weight-bold pl-8 pt-6'>
@@ -124,15 +123,6 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-<!--    <v-container>-->
-<!--      <v-row-->
-<!--          v-for='power in powers'-->
-<!--          :key='power.id'-->
-<!--      >-->
-<!--        <v-col>title : {{ power.title }}</v-col>-->
-<!--        <v-col>value : {{ power.value }}</v-col>-->
-<!--      </v-row>-->
-<!--    </v-container>-->
   </div>
 </template>
 <script>
