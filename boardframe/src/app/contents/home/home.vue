@@ -127,10 +127,8 @@
 </template>
 <script>
 import Resource from '@/api/server.js'
-import Authorization from '@/app/com.u2ware.oauth2.jwt.authorizationserver'
 export default {
   data: () => ({
-
     headers: [
       { text: '아이디', value: 'id', align: 'center',},
       { text: '이름', value: 'name', align: 'center',},
@@ -143,7 +141,6 @@ export default {
     totalItems: 0,
     totalPages: 0,
     isLoading: true,
-
 
     isOpen: false,
     activeId: null,
