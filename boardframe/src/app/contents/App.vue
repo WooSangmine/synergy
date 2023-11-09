@@ -1,73 +1,51 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-        v-model="drawer"
-        app
-    >
-      <v-divider></v-divider>
-      <v-list>
-        <router-link to="home" style="text-decoration: none">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
+    <v-app-bar app color='white' height='80'>
+    <v-avatar class='mr-3' size='56'>
+      <v-img contain max-height='100%' src='@/assets/synergyLogo.png'></v-img>
+    </v-avatar>
+    <v-toolbar-title class='font-weight-black headline'>
+      Synergy - xEMS
+    </v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-btn color='primary' @click='$router.push(`/contents/home`)'>
+      게시판 (으)로 가기
+    </v-btn>
+      <v-btn color='primary' @click='$router.push(`/contents/vuex`)'>
+        Vuex (으)로 가기
+      </v-btn>
+      <v-btn color='primary' @click='$router.push(`/contents/chart`)'>
+      차트 (으)로 가기
+      </v-btn>
+      <v-btn color='primary' @click='$router.push(`/contents/map`)'>
+        지도 (으)로 가기
+      </v-btn>
+      <v-btn color='primary' @click='$router.push(`/contents/main`)'>
+        메인 (으)로 가기
+      </v-btn>
+      <v-btn color='primary' @click='$router.push(`/oauth2/logout`)'>
+        로그아웃
+      </v-btn>
+  </v-app-bar>
 
-            <v-list-item-content>
-              <v-list-item-title>Home</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link to="/oauth2/login" style="text-decoration: none">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-login</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>로그인</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link to="SignUp" style="text-decoration: none">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>회원가입</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link to='/oauth2/logout' style="text-decoration: none">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-logout</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>로그아웃</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-      </v-list>
-    </v-navigation-drawer>
     <v-main>
-      <v-container
-          class="py-8 px-6"
-          fluid
-      >
-        <router-view />
-      </v-container>
+        <router-view/>
     </v-main>
+
+    <snackbar />
+    <alertbar />
   </v-app>
 </template>
 
 <script>
-
+import snackbar from "@/plugins/vuex/snackbar.vue";
+import alertbar from "@/plugins/vuex/alertbar.vue";
 export default {
   name: 'App',
-
+  components: {
+    snackbar,
+    alertbar,
+  },
   data: () => ({
     drawer: null,
   }),
@@ -77,4 +55,7 @@ export default {
 }
 </script>
 <style>
+.v-btn {
+  margin-left: 5px;
+}
 </style>

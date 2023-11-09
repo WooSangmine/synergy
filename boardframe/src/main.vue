@@ -7,7 +7,6 @@
 <script>
 export default {
     mounted() {
-		this.$vuetify.theme.dark = true
     },
 }
 </script>

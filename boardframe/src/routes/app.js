@@ -47,11 +47,27 @@ export default [
 			{
 				path: '/contents',
 				component: () => import('@/app/contents/App.vue'),
-				redirect: '/contents/home',
+				redirect: '/contents/main',
 				children: [
+					{
+						path: '/contents/main',
+						component: () => import('@/app/contents/main/main.vue'),
+					},
+					{
+						path: '/contents/chart',
+						component: () => import('@/app/contents/chart/Chart.vue'),
+					},
+					{
+						path: '/contents/map',
+						component: () => import('@/app/contents/map/map.vue'),
+					},
 					{
 						path: '/contents/home',
 						component: () => import('@/app/contents/home/home.vue'),
+					},
+					{
+						path: '/contents/vuex',
+						component: () => import('@/app/contents/vuex/vuex.vue'),
 					},
 				],
 			},
